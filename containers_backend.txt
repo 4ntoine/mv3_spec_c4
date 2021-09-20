@@ -11,7 +11,7 @@ System_Boundary(browser, "Browser with web extension") {
   Container(webExt, "Web extension", "Native")
 }
 
-System_Boundary(backEndContainer, "Back-end") {
+System_Boundary(backEndContainer, "Filters back-end") {
   Container(loadBalancer, "Load balancer", "")
   Container(host1, "Host 1", "")
   Container(hostN, "Host N", "")
