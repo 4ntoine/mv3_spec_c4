@@ -1,0 +1,30 @@
+@startuml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Context.puml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
+
+title Back-end containers diagram
+LAYOUT_WITH_LEGEND()
+
+' system itself
+System_Boundary(browser, "Browser with web extension") {
+  Container(webExt, "Web extension", "Native")
+}
+
+System_Boundary(backEndContainer, "Back-end") {
+  Container(loadBalancer, "Load balancer", "")
+  Container(host1, "Host 1", "")
+  Container(hostN, "Host N", "")
+  Container(filterServer, "Filters origin server", "")
+}
+
+ContainerDb_Ext(gitRepo, "Public filter rules repositories", "Git")
+
+' relations
+Rel_R(webExt, loadBalancer, "Fetches the changes from", "HTTP")
+Rel_D(loadBalancer, host1, "Redirects to", "HTTP")
+Rel_D(loadBalancer, hostN, "Redirects to", "HTTP")
+Rel_D(host1, filterServer, "Get the data from")
+Rel_D(hostN, filterServer, "Get the data from")
+Rel_R(filterServer, gitRepo, "Fetches the changes from", "Git")
+@enduml
