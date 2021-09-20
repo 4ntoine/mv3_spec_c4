@@ -1,5 +1,6 @@
 @startuml
 !include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Context.puml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
 
 LAYOUT_WITH_LEGEND()
 title Context diagram
@@ -8,26 +9,30 @@ title Context diagram
 Person(user, "User", "Desktop users")
 Person(coreDevs, "WebExt Core developers")
 Person(webExtDevs, "WebExt developers")
+Person(filterDevs, "Filter developers")
+Person(filterAuthors, "Filter authors")
 Person_Ext(chromeStoreModerators, "Chrome store moderators")
-Person_Ext(filterDevs, "Filter developers")
-Person_Ext(filterAuthors, "Filter authors")
 
 ' system itself
-System(browser, "Desktop browser", "Has web extension installed")
-'Container(webext, "Web extension", "Technology", "Optional Description")
+System(browser, "Desktop browser")
+Container(webExt, "Web extension", "JavaScript", "Ad blocking web extension")
+System(backEnd, "Filters back-end", "Filter subscriptions back-end: processes the subscriptions requests, collects the stats and provides the analytics")
 
 ' ext systems
-System_Ext(backEnd, "Filters back-end", "Filter subscriptions back-end: processes the subscriptions requests, collects the stats and provides the analytics")
-System_Ext(chromeStore, "Chrome store", "Hosts web extensions")
+System_Ext(chromeStore, "Chrome store")
 System_Ext(websiteHosting, "Websites hosting", "Hosts the websites")
 
 ' relations
 Rel_R(user, browser, "Searches a web extension, initiates a navigation")
 Rel_U(browser, websiteHosting, "Navigates to web sites", "HTTP")
 Rel_R(coreDevs, webExtDevs, "Provide web extension SDK")
-Rel_U(webExtDevs, chromeStore, "Publish web extension updates to")
+Rel_U(webExtDevs, chromeStore, "Publish to")
+Rel_R(webExtDevs, webExt, "Develop")
 Rel_D(browser, chromeStore, "Installs a web extension from")
-Rel_U(chromeStoreModerators, chromeStore, "Review and approve web extentions updates in")
+Rel_R(chromeStore, webExt, "Hosts")
+Rel_D(browser, webExt, "Has installed")
+Rel_U(chromeStoreModerators, webExt, "Review")
+Rel(chromeStoreModerators, chromeStore, "Approve to")
 Rel_U(filterDevs, backEnd, "Write and support")
 Rel_U(filterAuthors, backEnd, "Publish subscriptions updates to", "Git")
 Rel_R(browser, backEnd, "Requests subscriptions updates from", "HTTP")
