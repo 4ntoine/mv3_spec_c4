@@ -1,0 +1,33 @@
+@startuml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Context.puml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+
+title Browser containers diagram
+LAYOUT_WITH_LEGEND()
+
+' system itself
+System_Boundary(browserSystem, "Browser with web extension") {
+  Container_Boundary(browserContainer, "Pure browser") {
+    Container_Ext(browserCore, "Content filtering API", "Native")
+    Container_Ext(browserApi, "Public API", "Native")
+    Container_Ext(matcher, "Matcher", "Native")
+    ContainerDb_Ext(indexeddb, "IndexedDB API", "Native")
+    Container_Ext(schedulers, "Alert API", "Native")
+  }
+
+  Container(webExt, "Web extension", "JavaScript", "Ad blocking web extension")
+}
+
+System_Boundary(backEndContainer, "Back-end") {
+    Container(backEnd, "Back-end", "JavaScript")
+}
+
+' relations
+Rel_U(webExt, browserCore, "Setup fitler rules (DNR mark-up)")
+Rel_U(webExt, browserCore, "Request matched rules")
+Rel_U(webExt, browserApi, "Injects user stylesheet/CSS")
+Rel_U(webExt, indexeddb, "Persists the data in")
+Rel_U(webExt, schedulers, "Uses for scheduling")
+Rel_R(browserCore, matcher, "Uses")
+Rel_R(webExt, backEnd, "Fetches the changes from", "HTTP")
+@enduml

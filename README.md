@@ -8,6 +8,10 @@ C4 model for Manifest V3 changes for ad blocking extension
 
 ## Containers
 
+### Browser container
+
+![Browser container diagram](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/4ntoine/mv3_spec_c4/master/containers_browser.txt)
+
 ## Components
 
 ## Code
