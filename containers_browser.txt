@@ -15,7 +15,10 @@ System_Boundary(browserSystem, "Browser with web extension") {
     Container_Ext(schedulers, "Alert API", "Native")
   }
 
-  Container(webExt, "Web extension", "JavaScript", "Ad blocking web extension")
+  Container_Boundary(webExtContainer, "Web Extension") {
+    Container(webExtContent, "Content script", "JavaScript", "Injected into web page context")
+    Container(webExtBackground, "Background script", "JavaScript", "Service worker")
+  }
 }
 
 System_Boundary(backEndContainer, "Back-end") {
@@ -23,11 +26,12 @@ System_Boundary(backEndContainer, "Back-end") {
 }
 
 ' relations
-Rel_U(webExt, browserCore, "Setup fitler rules (DNR mark-up)")
-Rel_U(webExt, browserCore, "Request matched rules")
-Rel_U(webExt, browserApi, "Injects user stylesheet/CSS")
-Rel_U(webExt, indexeddb, "Persists the data in")
-Rel_U(webExt, schedulers, "Uses for scheduling")
+Rel_U(webExtBackground, browserCore, "Setup filter rules (DNR mark-up)")
+Rel_U(webExtBackground, browserCore, "Request matched rules")
+Rel_U(webExtContent, browserApi, "Injects user stylesheet/CSS")
+Rel_U(webExtBackground, indexeddb, "Persists the data in")
+Rel_U(webExtBackground, schedulers, "Uses for scheduling")
 Rel_R(browserCore, matcher, "Uses")
-Rel_R(webExt, backEnd, "Fetches the changes from", "HTTP")
+Rel_D(webExtBackground, backEnd, "Fetches the changes from", "HTTP")
+Rel_L(webExtBackground, webExtContent, "Communicates with")
 @enduml
