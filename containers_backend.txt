@@ -8,7 +8,7 @@ LAYOUT_WITH_LEGEND()
 
 ' system itself
 System_Boundary(browser, "Browser with web extension") {
-  Container(webExt, "Web extension", "Native")
+  Container(webExt, "Web extension", "JavaScript")
 }
 
 System_Boundary(backEndContainer, "Filters back-end") {
