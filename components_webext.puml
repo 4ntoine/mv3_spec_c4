@@ -25,6 +25,11 @@ Container_Boundary(webext, "Web extension") {
     Component(elemHideEmu, "ElemHideEmulation")
     Component(snippets, "Snippets")
   }
+
+  Container_Boundary(bundled_subscriptions, "Bundled subscriptions") {
+    ComponentDb(sub1_dnr_rules, "Easylist rules", "(file in DNR mark-up)")
+    ComponentDb(sub2_dnr_rules, "Easylist+Locale rules", "(file in DNR mark-up)")
+  }
 }
 
 ' external container
@@ -50,9 +55,10 @@ Rel(index, indexeddb, "Is persisted in")
 Rel(downloader, backEnd, "Downloads from")
 Rel(synchronizer, schedulers, "Schedules subscriptions/notifications updates")
 Rel(synchronizer, dnrConverter, "Uses")
-Rel(synchronizer, browserCore, "Feeds")
+Rel(synchronizer, browserCore, "Feeds (dynamic rules)")
 Rel(matcher, index, "Uses")
 Rel(notifications, downloader, "Uses")
 Rel(filterStorage, indexeddb, "Uses")
 Rel(prefs, indexeddb, "Uses")
+Rel(bundled_subscriptions, browserCore, "Feeds (static rules)")
 @enduml
