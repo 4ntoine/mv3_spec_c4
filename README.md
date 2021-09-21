@@ -22,6 +22,12 @@ As a deplayable thing a web extension is a single file. As a runnable thing a we
 
 ## Components
 
+### Web extension components
+
+![Web extension components diagram](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/4ntoine/mv3_spec_c4/master/components_webext.puml)
+
+### Back-end components
+
 TBD later.
 
 ## Code
