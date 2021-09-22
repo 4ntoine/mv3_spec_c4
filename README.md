@@ -41,6 +41,7 @@ TBD later.
 * WebExt on Containers diagram: split into separate containers (runnable things - Content/Background ) or keep single (single deployable thing)?
 * Browser on Containers diagram: keep Browser detailed (components)? Describe Chrome processes (main, child, extension)?
 * Filters origin server: show processes?
+* Separate Core and WebExt SDK?
 
 # TODO
 
