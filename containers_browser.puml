@@ -10,11 +10,11 @@ LAYOUT_WITH_LEGEND()
 System_Boundary(browserSystem, "Browser with web extension") {
   Container_Boundary(browserContainer, "Pure browser", "Native") {
     Component_Ext(browserCore, "Content filtering API", "Native")
-    Component_Ext(browserApi, "Public API", "Native")
+    Component_Ext(browserApi, "Other API", "Native")
     Component_Ext(index, "Index", "Native")
     Component_Ext(matcher, "Matcher", "Native")
     Component_Ext(loader, "Resource loader", "Native")
-    ContainerDb_Ext(indexeddb, "IndexedDB API", "Native")
+    ContainerDb_Ext(persistence, "Persistence API", "Native")
     Component_Ext(schedulers, "Alert API", "Native")
   }
 
@@ -32,7 +32,7 @@ System_Boundary(backEndContainer, "Filters back-end") {
 Rel_U(webExtBackground, browserCore, "Request matched rules")
 Rel_U(webExtBackground, browserCore, "Setup filter rules (DNR mark-up)")
 Rel_U(webExtContent, browserApi, "Injects user stylesheet/CSS")
-Rel_U(webExtBackground, indexeddb, "Persists the data in")
+Rel_U(webExtBackground, persistence, "Persists the data in")
 Rel_U(webExtBackground, schedulers, "Uses for scheduling")
 Rel_U(browserCore, index, "Fills")
 Rel_U(matcher, index, "Uses")
