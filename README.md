@@ -34,6 +34,17 @@ TBD later.
 
 TBD later.
 
+# Use cases
+
+## Web extension installation
+
+![Web extension components diagram](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/4ntoine/mv3_spec_c4/sequence/use_case_webext_installation.puml)
+
+## Page navigation
+
+## Subscription update
+
+
 # Open questions
 
 * Should we show Enterprise boundaries? Adblock Inc. - external/internal?
