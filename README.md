@@ -42,8 +42,9 @@ TBD later.
 
 ## Page navigation
 
-## Subscription update
+![Web extension components diagram](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/4ntoine/mv3_spec_c4/sequence/use_case_page_navigation.puml)
 
+## Subscription update
 
 # Open questions
 
