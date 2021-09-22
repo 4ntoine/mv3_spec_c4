@@ -19,6 +19,7 @@ Container_Boundary(webext, "Web extension") {
   Component(notifications, "Notifications", "", "(some events from the server)")
   Component(filterStorage, "Filter Storage", "", "(a mix of container and de-/serializer)")
   Component(prefs, "Preferences", "", "(de/-serializer for settings)")
+  Component(snippets, "Snippets", "", "(?)")
 
   node index {
     Component(elemHide, "ElemHide + Exceptions")
