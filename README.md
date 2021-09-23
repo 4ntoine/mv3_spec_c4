@@ -38,15 +38,15 @@ TBD later.
 
 ## Web extension installation
 
-![Web extension components diagram](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/4ntoine/mv3_spec_c4/sequence/use_case_webext_installation.puml)
+![Web extension components diagram](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/4ntoine/mv3_spec_c4/master/use_case_webext_installation.puml)
 
 ## Page navigation
 
-![Web extension components diagram](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/4ntoine/mv3_spec_c4/sequence/use_case_page_navigation.puml)
+![Web extension components diagram](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/4ntoine/mv3_spec_c4/master/use_case_page_navigation.puml)
 
 ## Subscription update
 
-![Web extension components diagram](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/4ntoine/mv3_spec_c4/sequence/use_case_sub_update.puml)
+![Web extension components diagram](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/4ntoine/mv3_spec_c4/master/use_case_sub_update.puml)
 
 # Open questions
 
