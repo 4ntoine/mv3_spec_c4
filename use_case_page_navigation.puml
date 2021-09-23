@@ -1,0 +1,26 @@
+@startuml
+
+actor User as user
+participant Browser             as browser
+participant "Content script"    as contentScript
+participant "Background script" as bgScript
+boundary "Messaging API"        as messagingApi
+boundary "JavaScript API"       as jsApi
+boundary "Persistence API"      as persistenceApi
+
+user -> browser : Type URL
+browser -> browser : Load resources
+note right: Both static and dynamic rules applied here
+browser -> contentScript : Execute the script(s)
+contentScript -> messagingApi : Subscribe to messages from Background script(s)
+contentScript -> messagingApi : "Get user stylesheet" message
+note right: Background script already subscribed
+messagingApi -> bgScript : Forward "Get user stylesheet/snippets"
+bgScript -> persistenceApi : Load content scripts Index
+persistenceApi -> bgScript : Content scripts Index
+bgScript -> bgScript : Check for matches and generate user stylesheet
+bgScript -> messagingApi : "User stylesheet" message
+messagingApi --> contentScript : Forward "User stylesheet" message
+contentScript -> jsApi : Apply user stylelesheet/snippets
+
+@enduml
