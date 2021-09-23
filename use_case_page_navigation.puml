@@ -1,11 +1,12 @@
 @startuml
+
 actor User as user
-participant Browser         as browser
-participant "Content script" as contentScript
+participant Browser             as browser
+participant "Content script"    as contentScript
 participant "Background script" as bgScript
-boundary "Messaging API" as messagingApi
-boundary "JavaScript API" as jsApi
-boundary "Persistence API" as persistenceApi
+boundary "Messaging API"        as messagingApi
+boundary "JavaScript API"       as jsApi
+boundary "Persistence API"      as persistenceApi
 
 user -> browser : Type URL
 browser -> browser : Load resources
