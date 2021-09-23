@@ -10,11 +10,11 @@ boundary "Messaging API" as messagingApi
 
 user -> browser : Type search query 
 browser -> store : Search 
-store -> browser : Search results
-browser -> user : Search results
+return Search results
+browser --> user : Search results
 user -> browser : Click "Install"
 browser -> store : Download
-store -> browser : Web extension bundle
+return Web extension bundle
 browser -> browser : Install web extension
 browser -> webext : Initialize
 group Initialization

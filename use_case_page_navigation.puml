@@ -19,7 +19,7 @@ bgScript -> persistenceApi : Load content scripts Index
 persistenceApi -> bgScript : Content scripts Index
 bgScript -> bgScript : Check for matches and generate user stylesheet
 bgScript -> messagingApi : "User stylesheet" message
-messagingApi -> contentScript : Forward "User stylesheet" message
+messagingApi --> contentScript : Forward "User stylesheet" message
 contentScript -> jsApi : Apply user stylelesheet/snippets
 
 @enduml
