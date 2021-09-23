@@ -13,7 +13,7 @@ Person(snippetDevs, "Snippets/ML developers")
 Person(filterDevs, "Filter developers")
 Person(ops, "Operations developers")
 Person_Ext(filterAuthors, "Filter authors")
-Person_Ext(chromeStoreModerators, "Chrome store moderators")
+Person_Ext(storeModerators, "Store moderators")
 
 ' system itself
 System(browser, "Desktop browser")
@@ -21,7 +21,7 @@ Container(webExt, "Web extension", "JavaScript", "Ad blocking web extension")
 System(backEnd, "Filters back-end", "Filter subscriptions back-end")
 
 ' ext systems
-System_Ext(chromeStore, "Chrome store")
+System_Ext(chromeStore, "WebExt Stores", "eg. Chrome, FF, etc")
 System_Ext(websiteHosting, "Websites hosting", "Hosts the websites")
 ContainerDb_Ext(gitRepo, "Public filter rules repositories", "Git")
 
@@ -35,11 +35,11 @@ Rel_R(webExtDevs, webExt, "Develop")
 Rel_D(browser, chromeStore, "Installs a web extension from")
 Rel_R(chromeStore, webExt, "Hosts")
 Rel_D(browser, webExt, "Has installed")
-Rel_U(chromeStoreModerators, webExt, "Review")
-Rel(chromeStoreModerators, chromeStore, "Approve to")
+Rel_U(storeModerators, webExt, "Review")
+Rel(storeModerators, chromeStore, "Approve to")
 Rel_U(filterDevs, backEnd, "Develop")
 Rel_U(ops, backEnd, "Develop and maintain")
 Rel_U(filterAuthors, gitRepo, "Publish subscriptions updates to")
-Rel_R(browser, backEnd, "Requests subscriptions updates from", "HTTP")
+Rel_R(webExt, backEnd, "Requests subscriptions updates from", "HTTP")
 Rel_R(backEnd, gitRepo, "Fetches the changes from", "Git")
 @enduml
