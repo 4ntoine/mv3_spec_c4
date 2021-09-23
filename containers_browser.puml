@@ -19,7 +19,7 @@ System_Boundary(browserSystem, "Browser with web extension") {
   }
 
   Container_Boundary(webExtContainer, "Web Extension") {
-    Container(webExtContent, "Content script", "JavaScript", "Injected into web page context")
+    Container(webExtContent, "Content script", "JavaScript", "Associated with web page context")
     Container(webExtBackground, "Background script", "JavaScript", "Service worker")
   }
 }

@@ -19,8 +19,12 @@ messagingApi -> bgScript : Forward "Get user stylesheet/snippets"
 bgScript -> persistenceApi : Load content scripts Index
 persistenceApi -> bgScript : Content scripts Index
 bgScript -> bgScript : Check for matches and generate user stylesheet
-bgScript -> messagingApi : "User stylesheet" message
-messagingApi --> contentScript : Forward "User stylesheet" message
-contentScript -> jsApi : Apply user stylelesheet/snippets
+alt Background script can apply stylesheet directly
+  bgScript -> jsApi : Apply user stylelesheet/snippets
+else Background script has to send to Content script
+  bgScript -> messagingApi : "User stylesheet" message
+  messagingApi --> contentScript : Forward "User stylesheet" message
+  contentScript -> jsApi : Apply user stylelesheet/snippets
+end
 
 @enduml
