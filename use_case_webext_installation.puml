@@ -2,7 +2,7 @@
 
 actor       User                 as user
 participant Browser              as browser
-database    "Chrome Store"       as store
+database    "WebExt Store"       as store
 participant "Web extension"      as webext
 participant "Background script"  as bgScript
 boundary "Alert API"             as schedulerApi
