@@ -7,7 +7,7 @@ title Context diagram
 
 ' persons
 Person(user, "User", "Desktop users")
-Person(coreDevs, "WebExt Core developers")
+Person(coreDevs, "WebExt Core/SDK developers")
 Person(webExtDevs, "WebExt developers")
 Person(snippetDevs, "Snippets/ML developers")
 Person(filterDevs, "Filter developers")
