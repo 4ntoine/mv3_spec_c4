@@ -6,7 +6,7 @@ C4 model for Manifest V3 changes for ad blocking extension
 
 **WebExt Core developers** provide a web extension SDK to **WebExt developers**. They use it in the ad blocking web extension and publish it to the **WebExt stores**. **Store moderators** review and approve the web extension updates. **Users** can search for an ad blocking extension and install it in desktop **Browser**. Once installed in the browser an ad blocking extension provides ad-filtered UX while navigating to the web sites. Browser extension keeps filter subscriptions up-to-date by requesting the updates from filters **Back-end** which is developed and supported by **Filter developers and Ops team**. Back-end fetches the changes from the **Public filter rules repositories** maintained by the **Filter authors**.
 
-![Context diagram](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/4ntoine/mv3_spec_c4/master/context.puml)
+![Context diagram](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://gitlab.com/eyeo/adblockplus/abc/mv3_spec/-/raw/main/context.puml)
 
 ## Containers
 
@@ -14,17 +14,17 @@ C4 model for Manifest V3 changes for ad blocking extension
 
 As a deplayable thing a web extension is a single file. As a runnable thing a web extension is separated into **Content script** and webext **Background script** which are hosted in separate processes. Once installed a background script is executed as a *Service worker*. One a new page (tab) is loaded, a content script is injected into its context. Both scripts are able to communicate with Browser via public APIs (that are different for script type) and together via messages. Web extension (background script) fetches the changes from filters back-end.
 
-![Browser containers diagram](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/4ntoine/mv3_spec_c4/master/containers_browser.puml)
+![Browser containers diagram](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://gitlab.com/eyeo/adblockplus/abc/mv3_spec/-/raw/main/containers_browser.puml)
 
 ### Back-end containers
 
-![Back-end containers diagram](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/4ntoine/mv3_spec_c4/master/containers_backend.puml)
+![Back-end containers diagram](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://gitlab.com/eyeo/adblockplus/abc/mv3_spec/-/raw/main/containers_backend.puml)
 
 ## Components
 
 ### Web extension components
 
-![Web extension components diagram](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/4ntoine/mv3_spec_c4/master/components_webext.puml)
+![Web extension components diagram](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://gitlab.com/eyeo/adblockplus/abc/mv3_spec/-/raw/main/components_webext.puml)
 
 ### Back-end components
 
@@ -38,15 +38,15 @@ TBD later.
 
 ## Web extension installation
 
-![Web extension components diagram](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/4ntoine/mv3_spec_c4/master/use_case_webext_installation.puml)
+![Web extension components diagram](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://gitlab.com/eyeo/adblockplus/abc/mv3_spec/-/raw/main/use_case_webext_installation.puml)
 
 ## Page navigation
 
-![Web extension components diagram](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/4ntoine/mv3_spec_c4/master/use_case_page_navigation.puml)
+![Web extension components diagram](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://gitlab.com/eyeo/adblockplus/abc/mv3_spec/-/raw/main/use_case_page_navigation.puml)
 
 ## Subscription update
 
-![Web extension components diagram](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/4ntoine/mv3_spec_c4/master/use_case_sub_update.puml)
+![Web extension components diagram](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://gitlab.com/eyeo/adblockplus/abc/mv3_spec/-/raw/main/use_case_sub_update.puml)
 
 # Open questions
 
