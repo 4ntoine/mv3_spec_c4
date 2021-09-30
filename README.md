@@ -54,6 +54,53 @@ Rel_R(backEnd, gitRepo, "Fetches the changes from", "Git")
 @enduml
 ```
 
+### Code-centric Context
+
+EyeO has a long successful history of deploying the AdBlock Plus
+browser extension using previous manifest versions. While the focus on
+Manifest V3 is around the Manifest V3 changes, the code repositories
+and development teams are still structured to support maintenance of
+the Manifest V2 extension which will continue to be used in Firefox.
+
+TODO: Snippets
+
+```plantuml
+@startuml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Context.puml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+
+LAYOUT_WITH_LEGEND()
+title Code-centric Context diagram
+
+' people
+Person(adblockinc, "Adblock Inc")
+Person(desktop, "Desktop SDK Team (temporary name)")
+
+' system itself
+System_Boundary(code, "code repositories") {
+Container(ui, "AdBlock Plus UI", "JavaScript")
+Container(ewe, "WebExt SDK (EWE)", "JavaScript", "Most of the internal functionality for an adblocking browser extension. Supports both V2 and V3 manifest formats.")
+Container(core, "AdBlock Plus Core", "JavaScript Library", "Environment-agnostic adblocking logic. Mostly developed with MV2 constraints in mind and so might not all support MV3 constraints.")
+}
+
+Container_Ext(firefox_ext, "Firefox Extension", "build artifact", "Bundles only the parts of the code required for MV2")
+Container(chrome_ext, "Chrome Extension", "build artifact", "Bundles only the parts of the code required for MV3")
+
+' relations
+Rel(adblockinc, ui, "develops")
+Rel(adblockinc, firefox_ext, "bundles and submits to Firefox Web Store")
+Rel(adblockinc, chrome_ext, "bundles and submits to Chrome Web Store")
+Rel_R(desktop, ewe, "develops")
+Rel_R(desktop, core, "develops")
+
+Rel_D(ui, ewe, "uses")
+Rel_D(ewe, core, "uses, mostly to support MV2 mode")
+
+Rel_L(firefox_ext, code, "bundles in MV2 mode")
+Rel_D(chrome_ext, code, "bundles in MV3 mode")
+@enduml
+```
+
 ## Containers
 
 ### Browser containers
