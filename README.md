@@ -1,5 +1,7 @@
 C4 model for Manifest V3 changes for ad blocking extension
 
+When this document changes, please also update [Confluence](https://confluence.eyeo.com/pages/viewpage.action?pageId=67229335)
+
 # Architecture
 
 ## Context
