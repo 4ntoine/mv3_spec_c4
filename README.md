@@ -58,11 +58,10 @@ Rel_R(backEnd, gitRepo, "Fetches the changes from", "Git")
 
 EyeO has a long successful history of deploying the AdBlock Plus
 browser extension using previous manifest versions. While the focus on
-Manifest V3 is around the Manifest V3 changes, the code repositories
-and development teams are still structured to support maintenance of
-the Manifest V2 extension which will continue to be used in Firefox.
-
-TODO: Snippets
+Manifest V3 is around the Manifest V3 extension is isolation, the code
+repositories and development teams are still structured to support
+maintenance of the Manifest V2 extension which will continue to be
+used in Firefox.
 
 ```plantuml
 @startuml
@@ -75,12 +74,14 @@ title Code-centric Context diagram
 ' people
 Person(adblockinc, "Adblock Inc")
 Person(desktop, "Desktop SDK Team (temporary name)")
+Person(anticv, "Anti-Circumvention Team")
 
 ' system itself
 System_Boundary(code, "code repositories") {
 Container(ui, "AdBlock Plus UI", "JavaScript")
 Container(ewe, "WebExt SDK (EWE)", "JavaScript", "Most of the internal functionality for an adblocking browser extension. Supports both V2 and V3 manifest formats.")
-Container(core, "AdBlock Plus Core", "JavaScript Library", "Environment-agnostic adblocking logic. Mostly developed with MV2 constraints in mind and so might not all support MV3 constraints.")
+Container(core, "AdBlock Plus Core", "JavaScript", "Environment-agnostic adblocking logic. Mostly developed with MV2 constraints in mind and so might not all support MV3 constraints.")
+Container(snippets, "Snippets", "JavaScript", "Code that can be executed as snippet filters")
 }
 
 Container_Ext(firefox_ext, "Firefox Extension", "build artifact", "Bundles only the parts of the code required for MV2")
@@ -92,9 +93,12 @@ Rel(adblockinc, firefox_ext, "bundles and submits to Firefox Web Store")
 Rel(adblockinc, chrome_ext, "bundles and submits to Chrome Web Store")
 Rel_R(desktop, ewe, "develops")
 Rel_R(desktop, core, "develops")
+Rel_L(anticv, snippets, "develops")
 
 Rel_D(ui, ewe, "uses")
 Rel_D(ewe, core, "uses, mostly to support MV2 mode")
+Rel_R(ewe, snippets, "uses")
+
 
 Rel_L(firefox_ext, code, "bundles in MV2 mode")
 Rel_D(chrome_ext, code, "bundles in MV3 mode")
