@@ -8,53 +8,7 @@ When this document changes, please also update [Confluence](https://confluence.e
 
 **WebExt Core developers** provide a web extension SDK to **WebExt developers**. They use it in the ad blocking web extension and publish it to the **WebExt stores**. **Store moderators** review and approve the web extension updates. **Users** can search for an ad blocking extension and install it in desktop **Browser**. Once installed in the browser an ad blocking extension provides ad-filtered UX while navigating to the web sites. Browser extension keeps filter subscriptions up-to-date by requesting the updates from filters **Back-end** which is developed and supported by **Filter developers and Ops team**. Back-end fetches the changes from the **Public filter rules repositories** maintained by the **Filter authors**.
 
-```plantuml
-@startuml
-!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Context.puml
-!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
-
-LAYOUT_WITH_LEGEND()
-title Context diagram
-
-' persons
-Person(user, "User", "Desktop users")
-Person(coreDevs, "WebExt Core/SDK developers")
-Person(webExtDevs, "WebExt developers")
-Person(snippetDevs, "Snippets/ML developers")
-Person(filterDevs, "Filter developers")
-Person(ops, "Operations developers")
-Person_Ext(filterAuthors, "Filter authors")
-Person_Ext(storeModerators, "Store moderators")
-
-' system itself
-System(browser, "Desktop browser")
-Container(webExt, "Web extension", "JavaScript", "Ad blocking web extension")
-System(backEnd, "Filters back-end", "Filter subscriptions back-end")
-
-' ext systems
-System_Ext(webExtStore, "WebExt Stores", "eg. Chrome, FF, etc")
-System_Ext(websiteHosting, "Websites hosting", "Hosts the websites")
-ContainerDb_Ext(gitRepo, "Public filter rules repositories", "Git")
-
-' relations
-Rel_R(user, browser, "Searches a web extension, initiates a navigation")
-Rel_U(browser, websiteHosting, "Navigates to web sites", "HTTP")
-Rel_R(coreDevs, webExtDevs, "Provide web extension SDK")
-Rel_U(snippetDevs, webExtDevs, "Provide snippets and ML model and lib")
-Rel_U(webExtDevs, webExtStore, "Publish to")
-Rel_R(webExtDevs, webExt, "Develop")
-Rel_D(browser, webExtStore, "Installs a web extension from")
-Rel_R(webExtStore, webExt, "Hosts")
-Rel_D(browser, webExt, "Has installed")
-Rel_U(storeModerators, webExt, "Review")
-Rel(storeModerators, webExtStore, "Approve to")
-Rel_U(filterDevs, backEnd, "Develop")
-Rel_U(ops, backEnd, "Develop and maintain")
-Rel_U(filterAuthors, gitRepo, "Publish subscriptions updates to")
-Rel_R(webExt, backEnd, "Requests subscriptions updates from", "HTTP")
-Rel_R(backEnd, gitRepo, "Fetches the changes from", "Git")
-@enduml
-```
+![Context diagram](http://www.plantuml.com/plantuml/proxy?cache=no&src=http://gitlab.com/eyeo/adblockplus/abc/mv3_spec/-/raw/main/components_webext.puml)
 
 ### Code-centric Context
 
