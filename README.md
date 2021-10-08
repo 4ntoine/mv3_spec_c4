@@ -21,9 +21,9 @@ Person(user, "User", "Desktop users")
 Person(coreDevs, "WebExt Core/SDK developers")
 Person(webExtDevs, "WebExt developers")
 Person(snippetDevs, "Snippets/ML developers")
-Person(filterDevs, "Filter developers")
+Person(filterEngs, "Filter engineers")
 Person(ops, "Operations developers")
-Person_Ext(filterAuthors, "Filter authors")
+Person_Ext(filterDevs, "Filter developers")
 Person_Ext(storeModerators, "Store moderators")
 
 ' system itself
@@ -48,9 +48,9 @@ Rel_R(webExtStore, webExt, "Hosts")
 Rel_D(browser, webExt, "Has installed")
 Rel_U(storeModerators, webExt, "Review")
 Rel(storeModerators, webExtStore, "Approve to")
-Rel_U(filterDevs, backEnd, "Develop")
-Rel_U(ops, backEnd, "Develop and maintain")
-Rel_U(filterAuthors, gitRepo, "Publish subscriptions updates to")
+Rel_U(filterEngs, backEnd, "Develop")
+Rel_U(ops, backEnd, "Develop and scale")
+Rel_U(filterDevs, gitRepo, "Publish subscriptions updates to")
 Rel_R(webExt, backEnd, "Requests subscriptions updates from", "HTTP")
 Rel_R(backEnd, gitRepo, "Fetches the changes from", "Git")
 @enduml
@@ -176,18 +176,18 @@ System_Boundary(browser, "Browser with web extension") {
 }
 
 System_Boundary(backEndContainer, "Filters back-end") {
-  Container(loadBalancer, "Load balancer", "")
-  Container(host1, "Host 1", "")
-  Container(hostN, "Host N", "")
-  Container(filterServer, "Filters origin server", "")
+  Container(loadBalancer, "Load balancer", "Apache")
+  Container(host1, "Host 1", "Apache")
+  Container(hostN, "Host N", "Apache")
+  Container(filterServer, "Filters origin server", "Python")
 }
 
 ContainerDb_Ext(gitRepo, "Public filter rules repositories", "Git")
 
 ' relations
 Rel_R(webExt, loadBalancer, "Fetches the changes from", "HTTP")
-Rel_D(loadBalancer, host1, "Redirects to", "HTTP")
-Rel_D(loadBalancer, hostN, "Redirects to", "HTTP")
+Rel_D(loadBalancer, host1, "Forwards to", "HTTP")
+Rel_D(loadBalancer, hostN, "Forwards to", "HTTP")
 Rel_D(host1, filterServer, "Get the data from")
 Rel_D(hostN, filterServer, "Get the data from")
 Rel_R(filterServer, gitRepo, "Fetches the changes from", "Git")
