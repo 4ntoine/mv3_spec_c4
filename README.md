@@ -207,11 +207,11 @@ title Web extension components diagram
 
 ' container itself
 Container_Boundary(webext, "Web extension") {
-  ' core  
+  ' core
   Component(analytics, "Analytics", "", "(?)")
   Component(events, "Events", "", "(essentially EventEmitter, wires the components")
   Component(filters, "Filters", "", "(whole classes hierarchy)")
-  Component(easylistParser, "Easylist parser", "", "(essentially Filter.fromText())")
+  Component(filterParser, "Filter parser", "", "(essentially Filter.fromText())")
   Component(diffParser, "Diff parser", "", "MV3 diff")
   Component(synchronizer, "Synchronizer")
   Component(downloader, "Downloader")
@@ -255,14 +255,14 @@ Container_Boundary(backEnd, "Filters back-end", "") {
 
 ' relations
 Rel(synchronizer, downloader, "Uses")
-Rel(synchronizer, easylistParser, "Uses")
+Rel(synchronizer, filterParser, "Uses")
 Rel_U(synchronizer, diffParser, "Uses")
 Rel_U(synchronizer, schedulers, "Schedules subscriptions/notifications updates")
 Rel(synchronizer, dnrConverter, "Uses")
 Rel_U(synchronizer, browserCore, "Feeds with dynamic + static rules")
 Rel(synchronizer, bundled_subscriptions, "Uses")
-Rel(easylistParser, filters, "Instantiates")
-Rel(easylistParser, index, "Fills")
+Rel(filterParser, filters, "Instantiates")
+Rel(filterParser, index, "Fills")
 Rel(index, filters, "Contains")
 Rel_U(index, persistence, "Is persisted in")
 Rel(downloader, server, "Downloads from")
