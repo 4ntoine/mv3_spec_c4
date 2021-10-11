@@ -235,8 +235,8 @@ Container_Boundary(webext, "Web extension") {
   }
 
   Container_Boundary(bundled_subscriptions, "Bundled subscriptions") {
-    ComponentDb(sub1_dnr_rules, "Easylist rules", "(file in DNR mark-up)")
-    ComponentDb(sub2_dnr_rules, "Easylist+Locale rules", "(file in DNR mark-up)")
+    ComponentDb(sub1_dnr_rules, "Main filter list", "(file in DNR mark-up)")
+    ComponentDb(sub2_dnr_rules, "Main+locale filter list", "(file in DNR mark-up)")
   }
 }
 
