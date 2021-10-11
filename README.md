@@ -290,26 +290,31 @@ title Filter origin server components
 ' container itself
 Container_Boundary(webext, "Filter origin server") {
   ' core  
-  Component(parser, "Filter parser", "", "Filter parsing utils")
-  Component(validator, "Filter validator", "", "Automated filter checks")
+  Component(parser, "Filter parser", "Python (subscriptionParser.py)", "Filter parsing utils")
+  Component(validator, "Filter validator", "Python", "Automated filter checks")
   ComponentDb(fileSystem, "File system", "", "Templates, full filter lists, diffs")
-  Component(templater, "Templater", "", "Filter list templating")
-  Component(diffGenerator, "Diff generator", "", "Filter list diff generator")
+  Component(combiner, "Combiner", "Python (combineSubscriptions.py)", "Filter list templating")
+  Component(diffGenerator, "Diff generator", "Python", "Filter list diff generator")
 }
 
+Container(compressor, "7z", "Executable")
+Container(cvs, "hg", "Executable")
+
 Container_Boundary(host, "Host N") {
-  Container_Ext(syncScript, "Synchronizing script", "", "Run by Cron")
+  Container_Ext(syncScript, "Synchronizing script", "?", "Run by Cron")
 }
 
 ' external container
-ContainerDb_Ext(repo, "Public filter rules repositories", "Git")
+ContainerDb_Ext(repo, "Public filter rules repositories", "Mercurial")
 
 ' relations
+Rel_D(parser, cvs, "Uses")
 Rel_L(parser, repo, "Fetches the changes from")
 Rel_R(parser, validator, "Validates filters")
-Rel_R(validator, templater, "Send the filters")
-Rel_U(templater, fileSystem, "Uses templates stored in")
-Rel_U(templater, fileSystem, "Puts full filter lists to")
+Rel_R(validator, combiner, "Send the filters")
+Rel_U(combiner, fileSystem, "Uses templates stored in")
+Rel_D(combiner, compressor, "Uses")
+Rel_U(combiner, fileSystem, "Puts full filter lists to")
 Rel_D(diffGenerator, fileSystem, "Gets full filter lists from, puts diff filter lists to")
 Rel_L(syncScript, fileSystem, "Fetches the filter updates (full/diff)", "rsync")
 @enduml
