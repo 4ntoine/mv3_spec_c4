@@ -25,7 +25,7 @@ System_Boundary(browserSystem, "Browser with web extension") {
 }
 
 System_Boundary(backEndContainer, "Filters back-end") {
-    Container(backEnd, "Server", "JavaScript")
+    Container(backEnd, "Server", "Apache")
 }
 
 ' relations

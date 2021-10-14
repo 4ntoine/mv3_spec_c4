@@ -141,7 +141,7 @@ System_Boundary(browserSystem, "Browser with web extension") {
 }
 
 System_Boundary(backEndContainer, "Filters back-end") {
-    Container(backEnd, "Server", "JavaScript")
+    Container(backEnd, "Server", "Apache")
 }
 
 ' relations
@@ -176,7 +176,7 @@ System_Boundary(browser, "Browser with web extension") {
 }
 
 System_Boundary(backEndContainer, "Filters back-end") {
-  Container(loadBalancer, "Load balancer", "Apache")
+  Container(loadBalancer, "Load balancer", "DNS")
   Container(host1, "Host 1", "Apache")
   Container(hostN, "Host N", "Apache")
   Container(filterServer, "Filters origin server", "Python")
@@ -186,8 +186,8 @@ ContainerDb_Ext(gitRepo, "Public filter rules repositories", "Git")
 
 ' relations
 Rel_R(webExt, loadBalancer, "Fetches the changes from", "HTTP")
-Rel_D(loadBalancer, host1, "Forwards to", "HTTP")
-Rel_D(loadBalancer, hostN, "Forwards to", "HTTP")
+Rel_D(loadBalancer, host1, "Resolves to")
+Rel_D(loadBalancer, hostN, "Resolves to")
 Rel_D(host1, filterServer, "Get the data from")
 Rel_D(hostN, filterServer, "Get the data from")
 Rel_R(filterServer, gitRepo, "Fetches the changes from", "Git")
@@ -294,18 +294,22 @@ Container_Boundary(webext, "Filter origin server") {
   Component(validator, "Filter validator", "Python", "Automated filter checks")
   ComponentDb(fileSystem, "File system", "", "Templates, full filter lists, diffs")
   Component(combiner, "Combiner", "Python (combineSubscriptions.py)", "Filter list templating")
-  Component(diffGenerator, "Diff generator", "Python", "Filter list diff generator")
+  Component(diffGenerator, "Diff generator", "Python (?)", "Filter list diff generator")
 }
 
 Container(compressor, "7z", "Executable")
-Container(cvs, "hg", "Executable")
+Container(cvs, "hg/git", "Executable")
 
 Container_Boundary(host, "Host N") {
   Container_Ext(syncScript, "Synchronizing script", "?", "Run by Cron")
+  ComponentDb_Ext(fileSystemHost, "File system", "", "")
+  Container_Ext(httpServer, "HTTP server", "Apache", "Serves the filter lists (full/diff)")
+  Container_Ext(analytics, "Analytics", "", "Set of scripts and tools")
 }
 
 ' external container
-ContainerDb_Ext(repo, "Public filter rules repositories", "Mercurial")
+ContainerDb_Ext(repo, "Public filter rules repositories", "Mercurial/Git")
+Container_Ext(webExt, "Web extension", "JavaScript", "As a part of desktop browser")
 
 ' relations
 Rel_D(parser, cvs, "Uses")
@@ -316,7 +320,12 @@ Rel_U(combiner, fileSystem, "Uses templates stored in")
 Rel_D(combiner, compressor, "Uses")
 Rel_U(combiner, fileSystem, "Puts full filter lists to")
 Rel_D(diffGenerator, fileSystem, "Gets full filter lists from, puts diff filter lists to")
-Rel_L(syncScript, fileSystem, "Fetches the filter updates (full/diff)", "rsync")
+Rel_L(syncScript, fileSystem, "Fetches the filter updates", "rsync")
+Rel_D(syncScript, fileSystemHost, "Stores the filter updates in")
+Rel_U(httpServer, fileSystemHost, "Serves the filter updates from")
+Rel_U(httpServer, fileSystemHost, "Saves requests logs to")
+Rel_L(analytics, fileSystemHost, "Loads and parses requests logs from")
+Rel_U(webExt, httpServer, "Requests filter updates", "HTTP")
 @enduml
 ```
 

@@ -12,7 +12,7 @@ System_Boundary(browser, "Browser with web extension") {
 }
 
 System_Boundary(backEndContainer, "Filters back-end") {
-  Container(loadBalancer, "Load balancer", "Apache")
+  Container(loadBalancer, "Load balancer", "DNS")
   Container(host1, "Host 1", "Apache")
   Container(hostN, "Host N", "Apache")
   Container(filterServer, "Filters origin server", "Python")
@@ -22,8 +22,8 @@ ContainerDb_Ext(gitRepo, "Public filter rules repositories", "Git")
 
 ' relations
 Rel_R(webExt, loadBalancer, "Fetches the changes from", "HTTP")
-Rel_D(loadBalancer, host1, "Forwards to", "HTTP")
-Rel_D(loadBalancer, hostN, "Forwards to", "HTTP")
+Rel_D(loadBalancer, host1, "Resolves to")
+Rel_D(loadBalancer, hostN, "Resolves to")
 Rel_D(host1, filterServer, "Get the data from")
 Rel_D(hostN, filterServer, "Get the data from")
 Rel_R(filterServer, gitRepo, "Fetches the changes from", "Git")
