@@ -111,7 +111,7 @@ Rel_D(chrome_ext, code, "bundles in MV3 mode")
 
 ### Browser containers
 
-As a deplayable thing a web extension is a single file. As a runnable thing a web extension is separated into **Content script** and webext **Background script** which are hosted in separate processes. Once installed a background script is executed as a *Service worker*. One a new page (tab) is loaded, a content script is injected into its context. Both scripts are able to communicate with Browser via public APIs (that are different for script type) and together via messages. Web extension (background script) fetches the changes from filters back-end.
+As a deplayable thing a web extension is a single file. As a runnable thing a web extension is separated into **Content script** and webext **ServiceWorker script** which are hosted in separate processes. Once installed a service script is executed. Once a new page (tab) is loaded, a content script is injected into its context. Both scripts are able to communicate with Browser via public APIs (that are different for script type) and together via messages. Web extension (service worker script) fetches the changes from filters back-end.
 
 ```plantuml
 @startuml
@@ -136,7 +136,7 @@ System_Boundary(browserSystem, "Browser with web extension") {
 
   Container_Boundary(webExtContainer, "Web Extension") {
     Container(webExtContent, "Content script", "JavaScript", "Associated with web page context")
-    Container(webExtBackground, "Background script", "JavaScript", "Service worker")
+    Container(webExtBackground, "ServiceWorker script", "JavaScript", "Service worker")
   }
 }
 
@@ -340,14 +340,14 @@ TBD later.
 ```plantuml
 @startuml
 
-actor       User                 as user
-participant Browser              as browser
-database    "WebExt Store"       as store
-participant "Web extension"      as webext
-participant "Background script"  as bgScript
-boundary "Alert API"             as schedulerApi
+actor User as user
+participant Browser as browser
+database    "WebExt Store" as store
+participant "Web extension" as webext
+participant "ServiceWorker script" as swScript
+boundary "Alert API" as schedulerApi
 boundary "Content Filtering API" as cfApi
-boundary "Messaging API"         as messagingApi
+boundary "Messaging API" as messagingApi
 
 user -> browser : Type search query 
 browser -> store : Search 
@@ -359,11 +359,11 @@ return Web extension bundle
 browser -> browser : Install web extension
 browser -> webext : Initialize
 group Initialization
-    webext -> bgScript : Execute
-    bgScript -> bgScript : Choose subscriptions
-    bgScript -> cfApi : Add static rules from the bundle
-    bgScript -> schedulerApi : Schedule subscriptions update
-    bgScript -> messagingApi : Subscribe to messages from Content script(s)
+    webext -> swScript : Execute
+    swScript -> swScript : Choose subscriptions
+    swScript -> cfApi : Add static rules from the bundle
+    swScript -> schedulerApi : Schedule subscriptions update
+    swScript -> messagingApi : Subscribe to messages from Content script(s)
 end
 
 @enduml
@@ -375,30 +375,30 @@ end
 @startuml
 
 actor User as user
-participant Browser             as browser
-participant "Content script"    as contentScript
-participant "Background script" as bgScript
-boundary "Messaging API"        as messagingApi
-boundary "JavaScript API"       as jsApi
-boundary "Persistence API"      as persistenceApi
+participant Browser as browser
+participant "Content script" as contentScript
+participant "ServiceWorker script" as swScript
+boundary "Messaging API" as messagingApi
+boundary "JavaScript API" as jsApi
+boundary "Persistence API" as persistenceApi
 
 user -> browser : Type URL
 browser -> browser : Load resources
 note right: Both static and dynamic rules applied here
 browser -> contentScript : Execute the script(s)
-contentScript -> messagingApi : Subscribe to messages from Background script(s)
+contentScript -> messagingApi : Subscribe to messages from ServiceWorker script(s)
 contentScript -> messagingApi : "Get user stylesheet" message
-note right: Background script already subscribed
-messagingApi -> bgScript : Forward "Get user stylesheet/snippets"
-bgScript -> persistenceApi : Load content scripts Index
-persistenceApi -> bgScript : Content scripts Index
-bgScript -> bgScript : Check for matches and generate user stylesheet
-alt Background script can apply stylesheet directly
-  bgScript -> jsApi : Apply user stylelesheet/snippets
-else Background script has to send to Content script
-  bgScript -> messagingApi : "User stylesheet" message
+note right: ServiceWorker script already subscribed
+messagingApi -> swScript : Forward "Get user stylesheet/snippets"
+swScript -> persistenceApi : Load Index
+persistenceApi -> swScript : Index
+swScript -> swScript : Check for matches and generate user stylesheet
+alt ServiceWorker script can apply stylesheet directly
+  swScript -> jsApi : Apply user stylesheet/snippets
+else ServiceWorker script has to send to Content script
+  swScript -> messagingApi : "User stylesheet" message
   messagingApi --> contentScript : Forward "User stylesheet" message
-  contentScript -> jsApi : Apply user stylelesheet/snippets
+  contentScript -> jsApi : Apply user stylesheet/snippets
 end
 
 @enduml
@@ -409,20 +409,20 @@ end
 ```plantuml
 @startuml
 
-boundary "Alert API"             as schedulerApi
+boundary "Alert API" as schedulerApi
 boundary "Content Filtering API" as cfApi
-boundary "Persistence API"       as persistenceApi
-participant "Background script"  as bgScript
-participant "Back-end"           as backEnd
+boundary "Persistence API" as persistenceApi
+participant "ServiceWorker script"  as swScript
+participant "Back-end" as backEnd
 
-schedulerApi -> bgScript : Signal
-bgScript -> persistenceApi : Load index and subscriptions
+schedulerApi -> swScript : Signal
+swScript -> persistenceApi : Load index and subscriptions
 return Index and subscriptions
-bgScript -> backEnd : Download subscription (full and/or diff)
+swScript -> backEnd : Download subscription (full and/or diff)
 return Subscription data
-bgScript -> bgScript : Update Index
-bgScript -> cfApi : Update dynamic rules
-bgScript -> persistenceApi : Save Index and subscriptions
+swScript -> swScript : Update Index
+swScript -> cfApi : Update dynamic rules
+swScript -> persistenceApi : Save Index and subscriptions
 
 @enduml
 ```

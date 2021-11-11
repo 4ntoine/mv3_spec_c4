@@ -1,18 +1,18 @@
 @startuml
 
-boundary "Alert API"             as schedulerApi
+boundary "Alert API" as schedulerApi
 boundary "Content Filtering API" as cfApi
-boundary "Persistence API"       as persistenceApi
-participant "Background script"  as bgScript
-participant "Back-end"           as backEnd
+boundary "Persistence API" as persistenceApi
+participant "ServiceWorker script" as swScript
+participant "Back-end" as backEnd
 
-schedulerApi -> bgScript : Signal
-bgScript -> persistenceApi : Load index and subscriptions
+schedulerApi -> swScript : Signal
+swScript -> persistenceApi : Load index and subscriptions
 return Index and subscriptions
-bgScript -> backEnd : Download subscription (full and/or diff)
+swScript -> backEnd : Download subscription (full and/or diff)
 return Subscription data
-bgScript -> bgScript : Update Index
-bgScript -> cfApi : Update dynamic rules
-bgScript -> persistenceApi : Save Index and subscriptions
+swScript -> swScript : Update Index
+swScript -> cfApi : Update dynamic rules
+swScript -> persistenceApi : Save Index and subscriptions
 
 @enduml

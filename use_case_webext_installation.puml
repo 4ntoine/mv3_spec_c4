@@ -1,13 +1,13 @@
 @startuml
 
-actor       User                 as user
-participant Browser              as browser
-database    "WebExt Store"       as store
-participant "Web extension"      as webext
-participant "Background script"  as bgScript
-boundary "Alert API"             as schedulerApi
+actor User as user
+participant Browser as browser
+database    "WebExt Store" as store
+participant "Web extension" as webext
+participant "ServiceWorker script" as swScript
+boundary "Alert API" as schedulerApi
 boundary "Content Filtering API" as cfApi
-boundary "Messaging API"         as messagingApi
+boundary "Messaging API" as messagingApi
 
 user -> browser : Type search query 
 browser -> store : Search 
@@ -19,11 +19,11 @@ return Web extension bundle
 browser -> browser : Install web extension
 browser -> webext : Initialize
 group Initialization
-    webext -> bgScript : Execute
-    bgScript -> bgScript : Choose subscriptions
-    bgScript -> cfApi : Add static rules from the bundle
-    bgScript -> schedulerApi : Schedule subscriptions update
-    bgScript -> messagingApi : Subscribe to messages from Content script(s)
+    webext -> swScript : Execute
+    swScript -> swScript : Choose subscriptions
+    swScript -> cfApi : Add static rules from the bundle
+    swScript -> schedulerApi : Schedule subscriptions update
+    swScript -> messagingApi : Subscribe to messages from Content script(s)
 end
 
 @enduml

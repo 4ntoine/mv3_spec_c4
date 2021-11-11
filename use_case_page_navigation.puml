@@ -1,30 +1,30 @@
 @startuml
 
 actor User as user
-participant Browser             as browser
-participant "Content script"    as contentScript
-participant "Background script" as bgScript
-boundary "Messaging API"        as messagingApi
-boundary "JavaScript API"       as jsApi
-boundary "Persistence API"      as persistenceApi
+participant Browser as browser
+participant "Content script" as contentScript
+participant "ServiceWorker script" as swScript
+boundary "Messaging API" as messagingApi
+boundary "JavaScript API" as jsApi
+boundary "Persistence API" as persistenceApi
 
 user -> browser : Type URL
 browser -> browser : Load resources
 note right: Both static and dynamic rules applied here
 browser -> contentScript : Execute the script(s)
-contentScript -> messagingApi : Subscribe to messages from Background script(s)
+contentScript -> messagingApi : Subscribe to messages from ServiceWorker script(s)
 contentScript -> messagingApi : "Get user stylesheet" message
-note right: Background script already subscribed
-messagingApi -> bgScript : Forward "Get user stylesheet/snippets"
-bgScript -> persistenceApi : Load content scripts Index
-persistenceApi -> bgScript : Content scripts Index
-bgScript -> bgScript : Check for matches and generate user stylesheet
-alt Background script can apply stylesheet directly
-  bgScript -> jsApi : Apply user stylelesheet/snippets
-else Background script has to send to Content script
-  bgScript -> messagingApi : "User stylesheet" message
+note right: ServiceWorker script already subscribed
+messagingApi -> swScript : Forward "Get user stylesheet/snippets"
+swScript -> persistenceApi : Load Index
+persistenceApi -> swScript : Index
+swScript -> swScript : Check for matches and generate user stylesheet
+alt ServiceWorker script can apply stylesheet directly
+  swScript -> jsApi : Apply user stylesheet/snippets
+else ServiceWorker script has to send to Content script
+  swScript -> messagingApi : "User stylesheet" message
   messagingApi --> contentScript : Forward "User stylesheet" message
-  contentScript -> jsApi : Apply user stylelesheet/snippets
+  contentScript -> jsApi : Apply user stylesheet/snippets
 end
 
 @enduml
